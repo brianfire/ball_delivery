@@ -6,12 +6,12 @@
 	<arg name="param_file_name" default="default" doc="Specify a param file. ex:megaman"/>
 
 	<!-- Run on local (laptop) -->
-	<node if="$(arg local)" ns="mecanum" pkg="$(arg pkg_name)" type="$(arg node_name).py" name="$(arg node_name)" output="screen" clear_params="true" required="true">
+	<node if="$(arg local)" ns="ball_delivery" pkg="$(arg pkg_name)" type="$(arg node_name).py" name="$(arg node_name)" output="screen" clear_params="true" required="true">
 		<rosparam command="load" file="$(find joy_mapper)/config/$(arg config)/$(arg pkg_name)/$(arg node_name)/$(arg param_file_name).yaml"/>
 	</node>
 
 	<!-- Run on remote (vehicle) -->
-	<node unless="$(arg local)" ns="mecanum" pkg="$(arg pkg_name)" type="$(arg node_name).py" name="$(arg node_name)" output="screen" clear_params="true" required="true">
+	<node unless="$(arg local)" ns="ball_delivery" pkg="$(arg pkg_name)" type="$(arg node_name).py" name="$(arg node_name)" output="screen" clear_params="true" required="true">
 		<rosparam command="load" file="$(find joy_mapper)/config/$(arg config)/$(arg pkg_name)/$(arg node_name)/$(arg param_file_name).yaml"/>
 	</node>	
 

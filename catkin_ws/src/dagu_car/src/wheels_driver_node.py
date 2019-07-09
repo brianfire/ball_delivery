@@ -31,6 +31,7 @@ class WheelsDriverNode(object):
             self.driver.setWheelsSpeed(left_front=0.0,right_front=0.0,left_rear=0.0,right_rear=0.0,theta=0.0)
             return
         self.driver.setWheelsSpeed(left_front=msg.vel_left_front,right_front=msg.vel_right_front,left_rear=msg.vel_left_rear,right_rear=msg.vel_right_rear,theta=msg.theta)
+        print ("send command") 
         # Put the wheel commands in a message and publish
         self.msg_wheels_cmd.header = msg.header
         # Record the time the command was given to the wheels_driver
