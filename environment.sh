@@ -25,7 +25,7 @@ echo "Set ROS_HOSTNAME to: $ROS_HOSTNAME"
 # make -C $DUCKIETOWN_ROOT machines
 
 echo "Activating development environment..."
-source ~/mecanum_wheels/catkin_ws/devel/setup.$shell
+source ~/ball_delivery/catkin_ws/devel/setup.$shell
 
 if [ 2015 -ge $(date +%Y) ];          
 then
