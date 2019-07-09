@@ -44,7 +44,7 @@ class InverseKinematicsNode(object):
         # Setup the publisher and subscriber
         self.sub_car_cmd = rospy.Subscriber("~car_cmd", Twist2DStamped, self.car_cmd_callback)
         self.pub_wheels_cmd = rospy.Publisher("~wheels_cmd", WheelsCmdStamped, queue_size=1)
-        self.sub_joy_ = rospy.Subscriber("/mecanum/joy", Joy, self.cbJoy, queue_size=1)
+        self.sub_joy_ = rospy.Subscriber("/ball_delivery/joy", Joy, self.cbJoy, queue_size=1)
         rospy.loginfo("[%s] Initialized.", self.node_name)
         self.printValues()
 
@@ -77,7 +77,7 @@ class InverseKinematicsNode(object):
                 pass
 
     def getFilePath(self, name):
-        return (os.environ['HOME']+'/mecanum_wheels/calibrations/kinematics/' + name + ".yaml")
+        return (os.environ['HOME']+'/ball_delivery/catkin_ws/src/calibrations/kinematics/' + name + ".yaml")
 
             
     def saveCalibration(self):
