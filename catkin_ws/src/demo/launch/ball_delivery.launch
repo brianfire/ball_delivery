@@ -26,4 +26,7 @@
 
     <!-- Wheels Driver -->
     <include file="$(find dagu_car)/launch/wheels_driver_node.launch"/>
+
+    <!-- Switcher -->
+    <node ns="ball_delivery" pkg="launcher" type="switcher_controller" name="switcher_controller" output="screen"/>
 </launch>
