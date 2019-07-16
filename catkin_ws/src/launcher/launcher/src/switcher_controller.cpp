@@ -51,6 +51,8 @@ void switcher::cbSwitcher(const std_msgs::Bool::ConstPtr& sub_msg){
 int main(int argc, char **argv){
   ros::init(argc, argv, "switcher_controller");
   ros::NodeHandle nh;
+  ROS_INFO("Subscribing to /launcher_switcher");
+  ROS_INFO("Publishing to /switcher_command");
   switcher sw(nh);
   ros::spin();
   return 0;
