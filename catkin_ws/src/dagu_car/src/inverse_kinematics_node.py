@@ -16,7 +16,8 @@ class InverseKinematicsNode(object):
         # Get node name and vehicle name
         self.node_name = rospy.get_name()
         self.veh_name = socket.gethostname()        
-
+        self.auto_mode = True
+        print "auto mode"
         # Set parameters using yaml file
         self.readParamFromFile()
 
@@ -45,6 +46,7 @@ class InverseKinematicsNode(object):
         self.sub_car_cmd = rospy.Subscriber("~car_cmd", Twist2DStamped, self.car_cmd_callback)
         self.pub_wheels_cmd = rospy.Publisher("~wheels_cmd", WheelsCmdStamped, queue_size=1)
         self.sub_joy_ = rospy.Subscriber("/ball_delivery/joy", Joy, self.cbJoy, queue_size=1)
+        self.sub_auto_joy_ = rospy.Subscriber("/launcher/auto_drop/joy", Joy, self.cbAutojoy, queue_size=1)
         rospy.loginfo("[%s] Initialized.", self.node_name)
         self.printValues()
 
@@ -155,6 +157,35 @@ class InverseKinematicsNode(object):
         rospy.loginfo("[%s] gain: %s trim: %s trim_front: %s baseline: %s radius: %s k: %s limit: %s" % (self.node_name, self.gain, self.trim, self.trim_front, self.baseline, self.radius, self.k, self.limit))
 
     def cbJoy(self, joy_msg):
+        if(self.auto_mode == False and joy_msg.buttons[8] == 1):
+            self.auto_mode = True
+            print "auto mode"
+            return 
+        if(self.auto_mode == True and joy_msg.buttons[8] == 1):
+            self.auto_mode = False
+            print "manual mode"
+            return
+        if(self.auto_mode == True):
+            return
+        u_r_f_limited = joy_msg.buttons[3] - joy_msg.buttons[0]
+        u_l_f_limited = joy_msg.buttons[2] - joy_msg.buttons[1]
+        u_r_r_limited = joy_msg.buttons[4] - joy_msg.buttons[5]
+        u_l_r_limited = joy_msg.buttons[6] - joy_msg.buttons[7]
+
+        msg_wheels_cmd = WheelsCmdStamped()
+        msg_wheels_cmd.header.stamp = joy_msg.header.stamp
+
+        msg_wheels_cmd.vel_right_front = u_r_f_limited
+        msg_wheels_cmd.vel_left_front = u_l_f_limited
+        msg_wheels_cmd.vel_right_rear = u_r_r_limited
+        msg_wheels_cmd.vel_left_rear = u_l_r_limited
+
+        msg_wheels_cmd.theta = 1
+        self.pub_wheels_cmd.publish(msg_wheels_cmd)
+
+    def cbAutojoy(self, joy_msg):
+        if(self.auto_mode == False):
+            return
         u_r_f_limited = joy_msg.buttons[3] - joy_msg.buttons[0]
         u_l_f_limited = joy_msg.buttons[2] - joy_msg.buttons[1]
         u_r_r_limited = joy_msg.buttons[4] - joy_msg.buttons[5]

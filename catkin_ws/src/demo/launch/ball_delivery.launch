@@ -10,7 +10,7 @@
     </node>
 
     <!-- auto drop ball -->
-    <node ns="launcher" pkg="launcher" type="launcher" name="auto_drop" output="screen">
+    <node ns="launcher" pkg="launcher" type="auto_drop.py" name="auto_drop" output="screen">
     </node>
 
     <!-- joy_mapper -->
