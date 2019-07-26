@@ -9,6 +9,10 @@
     <node ns="ball_delivery"  pkg="joy" type="joy_node" name="joy" output="screen">
     </node>
 
+    <!-- auto drop ball -->
+    <node ns="launcher" pkg="launcher" type="launcher" name="auto_drop" output="screen">
+    </node>
+
     <!-- joy_mapper -->
     <include file="$(find joy_mapper)/launch/joy_mapper_node.launch">
         <arg name="local" value="$(arg local)"/>
