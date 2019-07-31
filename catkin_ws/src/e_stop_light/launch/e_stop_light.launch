@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+  <node pkg="e_stop_light" type="e_stop_light.py" name="e_stop_light" output="screen"/>
+</launch>
