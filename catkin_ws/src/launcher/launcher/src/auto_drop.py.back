@@ -25,7 +25,7 @@ class auto_drop(object):
         # Subscriptions
         self.sub_drop_ = rospy.Subscriber("~drop", Bool, self.cbDrop, queue_size=1)
 
-        self.drop_srv = rospy.Service("/drop_req", SetBool, self.cbDrop)
+    self.drop_srv = rospy.Service("/drop_req", SetBool, self.cbDrop)
 
 
     def setupParam(self,param_name,default_value):
@@ -36,19 +36,26 @@ class auto_drop(object):
 
 
     def cbDrop(self, drop_msg):
-        self.back_lock_time = 0.1
-        self.front_lock_time = 1.15
         if(drop_msg.data == True):
-            print "drop right ball"
-            self.motor_control(3, 1, self.front_lock_time)
-            self.motor_control(1, 1, self.back_lock_time)
-            self.motor_control(4, 1, self.back_lock_time)
-        else:
-            print "drop left ball"
-            self.motor_control(7, 1, self.front_lock_time)
-            self.motor_control(5, 1, self.back_lock_time)
-            self.motor_control(6, 1, self.back_lock_time)
- 
+            if(self.drop_index >= 1 and self.drop_index <= 2):
+                print "drop ball ", self.drop_index
+                self.front_lock_time = 1.2
+                self.back_lock_time = 0.1
+                self.motor_control(3, 1, self.front_lock_time)
+                self.motor_control(1, 1, self.back_lock_time)
+                self.motor_control(4, 1, self.back_lock_time)
+                self.drop_index += 1
+            elif(self.drop_index >= 3 and self.drop_index <= 4):
+                print "drop ball ", self.drop_index
+                self.front_lock_time = 1.2
+                self.back_lock_time = 0.1
+                self.motor_control(7, 1, self.front_lock_time)
+                self.motor_control(5, 1, self.back_lock_time)
+                self.motor_control(6, 1, self.back_lock_time)
+                self.drop_index += 1
+            if(self.drop_index == 5):
+                self.drop_index = 1
+                print "reindex to ball 1"
         return True, "dropped"
 
     def motor_control(self, button_index, direction, duration):

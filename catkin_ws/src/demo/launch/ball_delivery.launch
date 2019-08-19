@@ -12,6 +12,9 @@
     <!-- auto drop ball -->
     <node ns="launcher" pkg="launcher" type="auto_drop.py" name="auto_drop" output="screen">
     </node>
+    <!-- auto drop ball -->
+    <node ns="demo" pkg="demo" type="drop_timer.py" name="drop_timer" output="screen">
+    </node>
 
     <!-- joy_mapper -->
     <include file="$(find joy_mapper)/launch/joy_mapper_node.launch">
@@ -33,4 +36,6 @@
 
     <!-- Switcher -->
     <node ns="ball_delivery" pkg="launcher" type="switcher_controller" name="switcher_controller" output="screen"/>
+
+    <node pkg="estop_light" type="light_on.py" name="estop_light" output="screen" />
 </launch>
